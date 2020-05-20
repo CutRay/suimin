@@ -7,7 +7,7 @@ app.use(bodyParser.json())
 
 var port = process.env.PORT || 3000
 
-var router = require('./routes/api/v1/')
+var router = require('./server/routes/api/v1/')
 app.use('/api/v1/', router)
 
 //サーバ起動
