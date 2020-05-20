@@ -1,0 +1,20 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "commonjs": true
+  },
+  "globals": {},
+  "parser": "typescript-eslint-parser",
+  "plugins": ["typescript"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "rules": {
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "no-console": "warn"
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
