@@ -3,14 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   const Active = sequelize.define(
     'Active',
     {
-      userId: DataTypes.INTEGER,
       startTime: DataTypes.DATE,
-      diffarenceTime: DataTypes.DATE
+      userId: DataTypes.INTEGER,
+      idealTime: DataTypes.DATE
     },
     {}
   )
   Active.associate = function(models) {
-    Active.belongTo(model.User)
+    // associations can be defined here
   }
   return Active
 }

@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     'User',
     {
       twitterId: DataTypes.STRING,
-      idealTime: DataTypes.DATE,
-      isWaking: DataTypes.BOOLEAN
+      isWaking: DataTypes.BOOLEAN,
+      idealTime: DataTypes.DATE
     },
     {}
   )

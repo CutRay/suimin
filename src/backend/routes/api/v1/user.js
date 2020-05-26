@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+let express = require('express')
+let router = express.Router()
 
 // ユーザー一覧 GET
 router.get('/', function(req, res) {
@@ -38,7 +38,7 @@ router.delete('/:id', function(req, res) {
 
 // ユーザーアクティブ一覧表示 GET
 router.get('/:id/active', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
   })
@@ -46,7 +46,7 @@ router.get('/:id/active', function(req, res) {
 
 // 新規ユーザーアクティブ登録 POST
 router.post('/:id/active', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
   })
@@ -54,7 +54,7 @@ router.post('/:id/active', function(req, res) {
 
 // ユーザーアクティブ詳細 GET
 router.get('/:id/active/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
   })
@@ -62,7 +62,7 @@ router.get('/:id/active/:sid', function(req, res) {
 
 // ユーザーアクティブ編集 PUT
 router.put('/:id/active/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
   })
@@ -70,7 +70,7 @@ router.put('/:id/active/:sid', function(req, res) {
 
 // ユーザーアクティブ DELETE
 router.delete('/:id/active/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
   })
@@ -78,7 +78,7 @@ router.delete('/:id/active/:sid', function(req, res) {
 
 // ユーザーレスト一覧表示 GET
 router.get('/:id/rest', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
   })
@@ -86,7 +86,7 @@ router.get('/:id/rest', function(req, res) {
 
 // 新規ユーザーレスト登録 POST
 router.post('/:id/rest', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
   })
@@ -94,7 +94,7 @@ router.post('/:id/rest', function(req, res) {
 
 // ユーザーレスト詳細 GET
 router.get('/:id/rest/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
   })
@@ -102,7 +102,7 @@ router.get('/:id/rest/:sid', function(req, res) {
 
 // ユーザーレスト編集 PUT
 router.put('/:id/rest/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
   })
@@ -110,7 +110,7 @@ router.put('/:id/rest/:sid', function(req, res) {
 
 // ユーザーレスト DELETE
 router.delete('/:id/rest/:sid', function(req, res) {
-  var Userid = req.params.id
+  let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
   })
