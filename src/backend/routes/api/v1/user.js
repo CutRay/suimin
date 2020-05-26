@@ -4,21 +4,38 @@ const db = require('../../../models/')
 const User = db.User
 const Active = db.Active
 const Rest = db.Rest
+
 // ユーザー一覧 GET
 router.get('/', async function(req, res) {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100
-  const users = await User.findAll({ offset, limit })
+  const users = await User.findAll({
+    offset,
+    limit
+  })
   res.json({
     users
   })
 })
 
 // 新規ユーザー登録 POST
-router.post('/', function(req, res) {
-  res.json({
-    message: 'This is user api'
-  })
+router.post('/', async function(req, res) {
+  const twitterId = req.body.twitterId
+  const isWaking = true
+  const idealTime = req.body.idealTime
+  const user = User.build({ twitterId, isWaking, idealTime })
+  await user
+    .save()
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザー詳細 GET
@@ -50,7 +67,7 @@ router.delete('/:id', function(req, res) {
 })
 
 // ユーザーアクティブ一覧表示 GET
-router.get('/:id/active', async function(req, res) {
+router.get('/:id/actives', async function(req, res) {
   const userId = Number(req.params.id)
   const actives = await Active.findAll({
     where: {
@@ -63,15 +80,31 @@ router.get('/:id/active', async function(req, res) {
 })
 
 // 新規ユーザーアクティブ登録 POST
-router.post('/:id/active', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/active api' + Userid
+router.post('/:id/actives', async function(req, res) {
+  const startTime = req.body.startTime
+  const userId = req.params.id
+  const idealTime = req.body.idealTime
+  const active = Active.build({
+    startTime,
+    userId,
+    idealTime
   })
+  await active
+    .save()
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザーアクティブ詳細 GET
-router.get('/:id/active/:sid', async function(req, res) {
+router.get('/:id/actives/:sid', async function(req, res) {
   const userId = req.params.id
   const id = req.params.sid
   const active = await Active.findAll({
@@ -86,7 +119,7 @@ router.get('/:id/active/:sid', async function(req, res) {
 })
 
 // ユーザーアクティブ編集 PUT
-router.put('/:id/active/:sid', function(req, res) {
+router.put('/:id/actives/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
@@ -94,7 +127,7 @@ router.put('/:id/active/:sid', function(req, res) {
 })
 
 // ユーザーアクティブ DELETE
-router.delete('/:id/active/:sid', function(req, res) {
+router.delete('/:id/actives/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
     message: 'This is user/active api' + Userid
@@ -102,7 +135,7 @@ router.delete('/:id/active/:sid', function(req, res) {
 })
 
 // ユーザーレスト一覧表示 GET
-router.get('/:id/rest', async function(req, res) {
+router.get('/:id/rests', async function(req, res) {
   const userId = Number(req.params.id)
   const rests = await Rest.findAll({
     where: {
@@ -115,15 +148,29 @@ router.get('/:id/rest', async function(req, res) {
 })
 
 // 新規ユーザーレスト登録 POST
-router.post('/:id/rest', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/rest api' + Userid
+router.post('/:id/rests', async function(req, res) {
+  const startTime = req.body.startTime
+  const userId = req.params.id
+  const rest = Active.build({
+    startTime,
+    userId
   })
+  await rest
+    .save()
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザーレスト詳細 GET
-router.get('/:id/rest/:sid', async function(req, res) {
+router.get('/:id/rests/:sid', async function(req, res) {
   const userId = req.params.id
   const id = req.params.sid
   const rest = await Rest.findAll({
@@ -138,7 +185,7 @@ router.get('/:id/rest/:sid', async function(req, res) {
 })
 
 // ユーザーレスト編集 PUT
-router.put('/:id/rest/:sid', function(req, res) {
+router.put('/:id/rests/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid
@@ -146,7 +193,7 @@ router.put('/:id/rest/:sid', function(req, res) {
 })
 
 // ユーザーレスト DELETE
-router.delete('/:id/rest/:sid', function(req, res) {
+router.delete('/:id/rests/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
     message: 'This is user/rest api' + Userid

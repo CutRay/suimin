@@ -1,6 +1,6 @@
 'use strict'
-
 const db = require('../models/')
+const { convertTimezone } = require('../tools/dateFormatter')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -11,7 +11,7 @@ module.exports = {
           id: 1,
           twitterId: 'sample1',
           isWaking: false,
-          idealTime: new Date(2000, 12, 26, 12, 0),
+          idealTime: convertTimezone('2000-12-26T12:00:00', 'Asia/Tokyo'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -19,7 +19,7 @@ module.exports = {
           id: 2,
           twitterId: 'sample2',
           isWaking: false,
-          idealTime: new Date(2000, 7, 9, 7, 0),
+          idealTime: convertTimezone('2000-07-09T07:00:00', 'Asia/Tokyo'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -27,7 +27,7 @@ module.exports = {
           id: 3,
           twitterId: 'sample3',
           isWaking: true,
-          idealTime: new Date(1970, 8, 17, 10, 0),
+          idealTime: convertTimezone('1970-08-17T10:00:00', 'Asia/Tokyo'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -35,7 +35,7 @@ module.exports = {
           id: 4,
           twitterId: 'sample4',
           isWaking: true,
-          idealTime: new Date(1969, 11, 1, 8, 0),
+          idealTime: convertTimezone('1969-11-01T08:50:00', 'Asia/Tokyo'),
           createdAt: new Date(),
           updatedAt: new Date()
         }

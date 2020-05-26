@@ -10,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   )
   User.associate = function(models) {
-    User.hasMany(models.Active, { foreignKey: 'userId' })
-    User.hasMany(models.Rest, { foreignKey: 'userId' })
+    User.hasMany(models.Sleep, { foreignKey: 'userId' })
   }
   return User
 }
