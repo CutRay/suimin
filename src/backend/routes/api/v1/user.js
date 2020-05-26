@@ -8,7 +8,7 @@ const Rest = db.Rest
 router.get('/', async function(req, res) {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100
-  const users = await db.User.findAll({ offset, limit })
+  const users = await User.findAll({ offset, limit })
   res.json({
     users
   })
@@ -24,7 +24,7 @@ router.post('/', function(req, res) {
 // ユーザー詳細 GET
 router.get('/:id', async function(req, res) {
   const id = Number(req.params.id)
-  const user = await db.User.findAll({
+  const user = await User.findAll({
     where: {
       id
     },
