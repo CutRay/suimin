@@ -1,10 +1,16 @@
-let express = require('express')
-let router = express.Router()
-
+const express = require('express')
+const router = express.Router()
+const db = require('../../../models/')
+const User = db.User
+const Active = db.Active
+const Rest = db.Rest
 // ユーザー一覧 GET
-router.get('/', function(req, res) {
+router.get('/', async function(req, res) {
+  const offset = Number(req.query.offset) || 0
+  const limit = Number(req.query.limit) || 100
+  const users = await db.User.findAll({ offset, limit })
   res.json({
-    message: 'This is user api'
+    users
   })
 })
 
@@ -16,9 +22,16 @@ router.post('/', function(req, res) {
 })
 
 // ユーザー詳細 GET
-router.get('/:id', function(req, res) {
+router.get('/:id', async function(req, res) {
+  const id = Number(req.params.id)
+  const user = await db.User.findAll({
+    where: {
+      id
+    },
+    include: [{ model: Active }, { model: Rest }]
+  })
   res.json({
-    message: 'This is user api'
+    user
   })
 })
 
@@ -37,10 +50,15 @@ router.delete('/:id', function(req, res) {
 })
 
 // ユーザーアクティブ一覧表示 GET
-router.get('/:id/active', function(req, res) {
-  let Userid = req.params.id
+router.get('/:id/active', async function(req, res) {
+  const userId = Number(req.params.id)
+  const actives = await Active.findAll({
+    where: {
+      userId
+    }
+  })
   res.json({
-    message: 'This is user/active api' + Userid
+    actives
   })
 })
 
@@ -53,10 +71,17 @@ router.post('/:id/active', function(req, res) {
 })
 
 // ユーザーアクティブ詳細 GET
-router.get('/:id/active/:sid', function(req, res) {
-  let Userid = req.params.id
+router.get('/:id/active/:sid', async function(req, res) {
+  const userId = req.params.id
+  const id = req.params.sid
+  const active = await Active.findAll({
+    where: {
+      userId,
+      id
+    }
+  })
   res.json({
-    message: 'This is user/active api' + Userid
+    active
   })
 })
 
@@ -77,10 +102,15 @@ router.delete('/:id/active/:sid', function(req, res) {
 })
 
 // ユーザーレスト一覧表示 GET
-router.get('/:id/rest', function(req, res) {
-  let Userid = req.params.id
+router.get('/:id/rest', async function(req, res) {
+  const userId = Number(req.params.id)
+  const rests = await Rest.findAll({
+    where: {
+      userId
+    }
+  })
   res.json({
-    message: 'This is user/rest api' + Userid
+    rests
   })
 })
 
@@ -93,10 +123,17 @@ router.post('/:id/rest', function(req, res) {
 })
 
 // ユーザーレスト詳細 GET
-router.get('/:id/rest/:sid', function(req, res) {
-  let Userid = req.params.id
+router.get('/:id/rest/:sid', async function(req, res) {
+  const userId = req.params.id
+  const id = req.params.sid
+  const rest = await Rest.findAll({
+    where: {
+      userId,
+      id
+    }
+  })
   res.json({
-    message: 'This is user/rest api' + Userid
+    rest
   })
 })
 
