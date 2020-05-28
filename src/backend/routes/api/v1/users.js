@@ -46,7 +46,7 @@ router.post('/', async function(req, res) {
 
 // ユーザー詳細 GET
 router.get('/:id', async function(req, res) {
-  const id = Number(req.params.id)
+  const id = req.params.id
   await User.findByPk(id)
     .then(user => {
       res.json({
@@ -62,7 +62,7 @@ router.get('/:id', async function(req, res) {
 
 // ユーザーデータ編集 PUT
 router.put('/:id', async function(req, res) {
-  const id = Number(req.params.id)
+  const id = req.params.id
   const twitterId = req.body.twitterId
   const isWaking = req.body.isWaking
   const idealTime = req.body.idealTime
@@ -160,35 +160,100 @@ router.post('/:id/sleeps', async function(req, res) {
     })
 })
 
+// ユーザースリープ個数 GET
+router.get('/:id/sleeps/count', async function(req, res) {
+  const userId = req.params.id
+  await Sleep.count({
+    where: {
+      userId
+    }
+  })
+    .then(counter => {
+      res.json({
+        counter
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'error'
+      })
+    })
+})
+
 // ユーザースリープ詳細 GET
 router.get('/:id/sleeps/:sid', async function(req, res) {
-  const userId = req.params.id
   const id = req.params.sid
-  const sleep = await Sleep.findAll({
+  const userId = req.params.id
+  await Sleep.findAll({
     where: {
       userId,
       id
     }
   })
-  res.json({
-    sleep
-  })
+    .then(sleep => {
+      res.json({
+        sleep
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'error'
+      })
+    })
 })
 
 // ユーザースリープ編集 PUT
-router.put('/:id/actives/:sid', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/active api' + Userid
-  })
+router.put('/:id/sleeps/:sid', function(req, res) {
+  const id = req.params.sid
+  const userId = req.params.id
+  const idealTime = req.body.idealTime
+  const startTime = req.body.startTime
+  const endTime = req.body.endTime
+  Sleep.update(
+    {
+      idealTime,
+      startTime,
+      endTime
+    },
+    {
+      where: {
+        id,
+        userId
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザースリープ DELETE
-router.delete('/:id/actives/:sid', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/active api' + Userid
+router.delete('/:id/sleeps/:sid', function(req, res) {
+  const id = req.params.sid
+  const userId = req.params.id
+  Sleep.destroy({
+    where: {
+      id,
+      userId
+    }
   })
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 //routerをモジュールとして扱う準備
