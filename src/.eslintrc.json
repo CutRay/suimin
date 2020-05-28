@@ -1,21 +1,23 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "node": true,
     "es6": true,
     "commonjs": true
   },
-  "globals": {},
-  "parser": "typescript-eslint-parser",
-  "plugins": ["typescript"],
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "plugins": ["vue", "typescript"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:vue/essential"
+  ],
   "rules": {
+    "generator-star-spacing": "off",
+    "no-debugger": "error",
     "no-undef": "off",
     "no-unused-vars": "off",
     "no-console": "warn",
     "no-var": "error"
-  },
-  "parserOptions": {
-    "sourceType": "module"
   }
 }
