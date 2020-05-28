@@ -2,8 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../../../models/')
 const User = db.User
-const Active = db.Active
-const Rest = db.Rest
+const Sleep = db.Sleep
 
 // ユーザー一覧 GET
 router.get('/', async function(req, res) {
@@ -44,8 +43,7 @@ router.get('/:id', async function(req, res) {
   const user = await User.findAll({
     where: {
       id
-    },
-    include: [{ model: Active }, { model: Rest }]
+    }
   })
   res.json({
     user
@@ -66,30 +64,36 @@ router.delete('/:id', function(req, res) {
   })
 })
 
-// ユーザーアクティブ一覧表示 GET
-router.get('/:id/actives', async function(req, res) {
+// ユーザースリープ一覧表示 GET
+router.get('/:id/sleeps', async function(req, res) {
+  const offset = Number(req.query.offset) || 0
+  const limit = Number(req.query.limit) || 100
   const userId = Number(req.params.id)
-  const actives = await Active.findAll({
+  const sleeps = await Sleep.findAll({
+    offset,
+    limit,
     where: {
       userId
     }
   })
   res.json({
-    actives
+    sleeps
   })
 })
 
-// 新規ユーザーアクティブ登録 POST
-router.post('/:id/actives', async function(req, res) {
+// 新規ユーザースリープ登録 POST
+router.post('/:id/sleeps', async function(req, res) {
   const startTime = req.body.startTime
+  const endTime = req.body.endTime
   const userId = req.params.id
   const idealTime = req.body.idealTime
-  const active = Active.build({
+  const sleep = Sleep.build({
     startTime,
+    endTime,
     userId,
     idealTime
   })
-  await active
+  await sleep
     .save()
     .then(() => {
       res.json({
@@ -103,22 +107,22 @@ router.post('/:id/actives', async function(req, res) {
     })
 })
 
-// ユーザーアクティブ詳細 GET
-router.get('/:id/actives/:sid', async function(req, res) {
+// ユーザースリープ詳細 GET
+router.get('/:id/sleeps/:sid', async function(req, res) {
   const userId = req.params.id
   const id = req.params.sid
-  const active = await Active.findAll({
+  const sleep = await Sleep.findAll({
     where: {
       userId,
       id
     }
   })
   res.json({
-    active
+    sleep
   })
 })
 
-// ユーザーアクティブ編集 PUT
+// ユーザースリープ編集 PUT
 router.put('/:id/actives/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
@@ -126,7 +130,7 @@ router.put('/:id/actives/:sid', function(req, res) {
   })
 })
 
-// ユーザーアクティブ DELETE
+// ユーザースリープ DELETE
 router.delete('/:id/actives/:sid', function(req, res) {
   let Userid = req.params.id
   res.json({
@@ -134,70 +138,5 @@ router.delete('/:id/actives/:sid', function(req, res) {
   })
 })
 
-// ユーザーレスト一覧表示 GET
-router.get('/:id/rests', async function(req, res) {
-  const userId = Number(req.params.id)
-  const rests = await Rest.findAll({
-    where: {
-      userId
-    }
-  })
-  res.json({
-    rests
-  })
-})
-
-// 新規ユーザーレスト登録 POST
-router.post('/:id/rests', async function(req, res) {
-  const startTime = req.body.startTime
-  const userId = req.params.id
-  const rest = Active.build({
-    startTime,
-    userId
-  })
-  await rest
-    .save()
-    .then(() => {
-      res.json({
-        message: 'success'
-      })
-    })
-    .catch(() => {
-      res.json({
-        message: 'failed'
-      })
-    })
-})
-
-// ユーザーレスト詳細 GET
-router.get('/:id/rests/:sid', async function(req, res) {
-  const userId = req.params.id
-  const id = req.params.sid
-  const rest = await Rest.findAll({
-    where: {
-      userId,
-      id
-    }
-  })
-  res.json({
-    rest
-  })
-})
-
-// ユーザーレスト編集 PUT
-router.put('/:id/rests/:sid', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/rest api' + Userid
-  })
-})
-
-// ユーザーレスト DELETE
-router.delete('/:id/rests/:sid', function(req, res) {
-  let Userid = req.params.id
-  res.json({
-    message: 'This is user/rest api' + Userid
-  })
-})
 //routerをモジュールとして扱う準備
 module.exports = router

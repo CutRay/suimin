@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       isWaking: DataTypes.BOOLEAN,
       idealTime: DataTypes.DATE
     },
-    {}
+    { tableName: 'Users' }
   )
   User.associate = function(models) {
     User.hasMany(models.Sleep, { foreignKey: 'userId' })

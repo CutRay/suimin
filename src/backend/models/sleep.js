@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       endTime: DataTypes.DATE,
       userId: DataTypes.INTEGER
     },
-    {}
+    { tableName: 'Sleeps' }
   )
   Sleep.associate = function(models) {
     // associations can be defined here
