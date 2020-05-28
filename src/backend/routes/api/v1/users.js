@@ -8,13 +8,20 @@ const Sleep = db.Sleep
 router.get('/', async function(req, res) {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100
-  const users = await User.findAll({
+  await User.findAll({
     offset,
     limit
   })
-  res.json({
-    users
-  })
+    .then(users => {
+      res.json({
+        users
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'error'
+      })
+    })
 })
 
 // 新規ユーザー登録 POST
@@ -40,28 +47,67 @@ router.post('/', async function(req, res) {
 // ユーザー詳細 GET
 router.get('/:id', async function(req, res) {
   const id = Number(req.params.id)
-  const user = await User.findAll({
-    where: {
-      id
-    }
-  })
-  res.json({
-    user
-  })
+  await User.findByPk(id)
+    .then(user => {
+      res.json({
+        user
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'error'
+      })
+    })
 })
 
 // ユーザーデータ編集 PUT
-router.put('/:id', function(req, res) {
-  res.json({
-    message: 'This is user api'
-  })
+router.put('/:id', async function(req, res) {
+  const id = Number(req.params.id)
+  const twitterId = req.body.twitterId
+  const isWaking = req.body.isWaking
+  const idealTime = req.body.idealTime
+  User.update(
+    {
+      twitterId,
+      isWaking,
+      idealTime
+    },
+    {
+      where: {
+        id
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザー削除 DELETE
 router.delete('/:id', function(req, res) {
-  res.json({
-    message: 'This is user api'
+  const id = Number(req.params.id)
+  User.destroy({
+    where: {
+      id
+    }
   })
+    .then(() => {
+      res.json({
+        message: 'success'
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'failed'
+      })
+    })
 })
 
 // ユーザースリープ一覧表示 GET
@@ -69,16 +115,23 @@ router.get('/:id/sleeps', async function(req, res) {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100
   const userId = Number(req.params.id)
-  const sleeps = await Sleep.findAll({
+  await Sleep.findAll({
     offset,
     limit,
     where: {
       userId
     }
   })
-  res.json({
-    sleeps
-  })
+    .then(sleeps => {
+      res.json({
+        sleeps
+      })
+    })
+    .catch(() => {
+      res.json({
+        message: 'error'
+      })
+    })
 })
 
 // 新規ユーザースリープ登録 POST
