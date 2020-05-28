@@ -1,11 +1,11 @@
+dc/up:
+	docker-compose up
+	
 d/ps:
 	docker ps
 
 dc/ps:
 	docker-compose ps
-
-dc/up:
-	docker-compose up
 
 dc/up-d:
 	docker-compose up -d
