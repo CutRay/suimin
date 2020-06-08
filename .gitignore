@@ -1,4 +1,9 @@
 *.env
-src/node_modules
-src/package-lock.json
-src/frontend/dist
+app/frontend/node_modules
+app/frontend/yarn.lock
+app/frontend/package-lock.json
+app/frontend/dist
+app/backend/node_modules
+app/backend/yarn.lock
+app/backend/package-lock.json
+app/backend/dist
