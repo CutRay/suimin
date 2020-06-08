@@ -23,9 +23,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./src:/app
-    working_dir: /app/frontend
-    command: npm run serve-front
+      - ./app/frontend:/app
+    working_dir: /app
+    command: npm run serve
     networks:
       - server
 
@@ -39,9 +39,9 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ./src:/app
-    working_dir: /app/backend
-    command: npm run serve-back
+      - ./app/backend:/app
+    working_dir: /app
+    command: npm run serve
     networks:
       - server
     depends_on:
