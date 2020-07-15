@@ -28,9 +28,6 @@ dc/migrate-undo-all:
 dc/seed-undo:
 	docker-compose run --rm backend npx sequelize-cli db:seed:undo
 
-dc/migrate-seed-all:
-	docker-compose run --rm backend npx sequelize-cli db:migrate:undo:all
-
 dc/seed-all:
 	docker-compose run --rm backend npx sequelize-cli db:seed:all
 
